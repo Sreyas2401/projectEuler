@@ -1,0 +1,37 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+if [ "$#" -ne 1 ]; then
+  echo "Usage: ./newcpp <filename-or-name.cpp>" >&2
+  exit 1
+fi
+
+name="$1"
+
+if [[ "$name" == */* ]]; then
+  echo "Error: pass only a filename, not a path." >&2
+  exit 1
+fi
+
+if [[ "$name" != *.cpp ]]; then
+  name="${name}.cpp"
+fi
+
+if [[ ! "$name" =~ ^[A-Za-z0-9_-]+\.cpp$ ]]; then
+  echo "Error: filename may only contain letters, numbers, underscores, and hyphens." >&2
+  exit 1
+fi
+
+if [ -e "$name" ]; then
+  echo "Error: $name already exists." >&2
+  exit 1
+fi
+
+cat > "$name" <<'EOF'
+#include <iostream>
+using namespace std;
+
+int main() { return 0; }
+EOF
+
+echo "Created $name"

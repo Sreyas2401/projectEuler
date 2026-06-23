@@ -2,6 +2,6 @@
 #include <iostream>
 
 int main() {
-  std::cout << nth_prime(10001) << '\n';
+  std::cout << sum_primes_below(2000000) << '\n';
   return 0;
 }
